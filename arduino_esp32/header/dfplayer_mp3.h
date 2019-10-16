@@ -16,7 +16,7 @@ public:
     void onRead(BLECharacteristic* pCharacteristic);
 
 private:
-	DFRobotDFPlayerMini* m_dfplayer;
+	DFRobotDFPlayerMini m_dfplayer;
 };
 
 class PlayCallback : public BLECharacteristicCallbacks {
@@ -26,16 +26,17 @@ public:
     void onRead(BLECharacteristic* pCharacteristic);
 
 private:
-	DFRobotDFPlayerMini* m_dfplayer;
+	DFRobotDFPlayerMini m_dfplayer;
 };
 
 class DFPlayer {
+	HardwareSerial m_serial;
 public:
 	DFPlayer(BLEServer* pServer);
 	~DFPlayer();
 
 private:
-	DFRobotDFPlayerMini* m_dfplayer;
+	DFRobotDFPlayerMini m_dfplayer;
 	BLEService *m_service;
 	BLECharacteristic* m_characteristic_vol;
 	BLECharacteristic* m_play;
