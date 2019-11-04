@@ -8,9 +8,9 @@ VolumeCallback::VolumeCallback(DFRobotDFPlayerMini* myDFPlayer) {
 void VolumeCallback::onWrite(BLECharacteristic* pCharacteristic) {
 	String value = pCharacteristic->getValue().c_str();
 
-	Serial.print("Setting volume to: ");
-	Serial.println(value);
-	m_dfplayer.volume(value.toInt());
+	if (value.toInt() <= 30) {
+		m_dfplayer.volume(value.toInt());
+	}
 }
 
 void VolumeCallback::onRead(BLECharacteristic* pCharacteristic) {}
@@ -20,7 +20,9 @@ PlayCallback::PlayCallback(DFRobotDFPlayerMini* myDFPlayer) {
 }
 
 void PlayCallback::onWrite(BLECharacteristic* pCharacteristic) {
-	m_dfplayer.play(1);
+	String value = pCharacteristic->getValue().c_str();
+
+	m_dfplayer.play(value.toInt());
 }
 
 void PlayCallback::onRead(BLECharacteristic* pCharacteristic) {}
