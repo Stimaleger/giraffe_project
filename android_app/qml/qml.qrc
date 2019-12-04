@@ -2,5 +2,10 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>qtquickcontrols2.conf</file>
+
+        <file>images/background.png</file>
+        <file>images/bubble.svg</file>
+        <file>images/girafe.gif</file>
+        <file>images/settings.svg</file>
     </qresource>
 </RCC>
