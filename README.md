@@ -35,7 +35,7 @@ app0,     app,  ota_0,   0x10000, 0x1F0000,
 app1,     app,  ota_1,   0x200000,0x200000,
 
 ```
-Due to bluetooth stack size. (See this issue) [https://github.com/espressif/arduino-esp32/issues/1075]
+Due to bluetooth stack size. (See this issue)[https://github.com/espressif/arduino-esp32/issues/1075]
 
 2 - Update maximum application flash size in file $ARDUINO_DIRECTORY/hardware/espressif/esp32/board.txt at line 12 with the corresponding size your set in previous step:
 
@@ -48,5 +48,7 @@ esp32.upload.maximum_size=2031616
 TODO.
 
 ## Integration
+
+![Integration video](images/basement.gif). 
 
 TODO.
