@@ -16,16 +16,7 @@ public:
     void onRead(BLECharacteristic* pCharacteristic);
 
 private:
-	DFRobotDFPlayerMini m_dfplayer;
-};
-
-class PlayCallback : public BLECharacteristicCallbacks {
-public:
-	PlayCallback(DFRobotDFPlayerMini* myDFPlayer);
-    void onWrite(BLECharacteristic* pCharacteristic);
-    void onRead(BLECharacteristic* pCharacteristic);
-
-private:
+	const int max_value = 20;
 	DFRobotDFPlayerMini m_dfplayer;
 };
 

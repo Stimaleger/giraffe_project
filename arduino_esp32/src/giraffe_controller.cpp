@@ -2,12 +2,19 @@
 #include "Arduino.h"
 #include "../header/giraffe_controller.h"
 
-GiraffeController::GiraffeController() {
-	Serial.println("I'm the constructor of GiraffeController");
+void StateBleServer::onConnect(BLEServer* pServer) {
+	Serial.println("We are connected");
 }
 
+void StateBleServer::onDisconnect(BLEServer* pServer) {
+	Serial.println("We are disconnected");
+}
+
+GiraffeController::GiraffeController() {}
+
 GiraffeController::~GiraffeController() {
-	Serial.println("I'm the destructor of GiraffeController");
+	delete m_led_controller;
+	delete m_dfplayer;
 }
 
 void GiraffeController::init() {
@@ -15,9 +22,13 @@ void GiraffeController::init() {
 
 	/* Create BLE server */ 
 	m_ble_server = BLEDevice::createServer();
+	m_ble_server->setCallbacks(new StateBleServer());
 
-	/* Create DFplayer */
+	/* Create DFPlayer */
 	m_dfplayer = new DFPlayer(m_ble_server);
+
+	/* Create LedController */
+	m_led_controller = new LedController();
 
 	/* Enable BLE */
 	m_ble_server->getAdvertising()->start();
