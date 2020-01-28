@@ -18,7 +18,11 @@ private:
 };
 
 class StateBleServer: public BLEServerCallbacks {
+public:
+	StateBleServer(LedController* led_controller, DFPlayer* dfplayer);
 	void onConnect(BLEServer* pServer);
 	void onDisconnect(BLEServer* pServer);
-	bool m_status;
+private:
+	DFPlayer* m_dfplayer;
+	LedController* m_led_controller;
 };

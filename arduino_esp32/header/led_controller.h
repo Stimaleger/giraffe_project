@@ -18,7 +18,11 @@ public:
 	LedController();
 	void turn_off();
 	void initialize_patterns();
+	void run_positive_pattern();
+	void run_negative_pattern();
+	void run_patterns();
 private:
 	eventPattern m_ble_event_positive;
+	eventPattern m_ble_event_negative;
 	std::vector<LedPatternVirtual*> m_patterns;
 };
