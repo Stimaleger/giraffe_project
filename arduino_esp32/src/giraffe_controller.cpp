@@ -2,21 +2,15 @@
 #include "Arduino.h"
 #include "../header/giraffe_controller.h"
 
-StateBleServer::StateBleServer(LedController* p_led_controller, DFPlayer* p_dfplayer) {
-	m_dfplayer = p_dfplayer;
-	m_led_controller = p_led_controller;
+void GiraffeController::onConnect(BLEServer* pServer) {
+	e_patterns pattern = POSITIVE;
+	xQueueSend(m_queue, &pattern, portMAX_DELAY);
 }
 
-void StateBleServer::onConnect(BLEServer* pServer) {
-	Serial.println("We are connected");
-	m_led_controller->run_positive_pattern();
+void GiraffeController::onDisconnect(BLEServer* pServer) {
+	e_patterns pattern = NEGATIVE;
+	xQueueSend(m_queue, &pattern, portMAX_DELAY);
 }
-
-void StateBleServer::onDisconnect(BLEServer* pServer) {
-	Serial.println("We are disconnected");
-}
-
-GiraffeController::GiraffeController() {}
 
 GiraffeController::~GiraffeController() {
 	delete m_led_controller;
@@ -25,17 +19,21 @@ GiraffeController::~GiraffeController() {
 
 void GiraffeController::init() {
 	Serial.println("Initializing giraffe controller");
+	e_patterns pattern = POSITIVE;
 
 	/* Create BLE server */ 
-	m_ble_server = BLEDevice::createServer();
+	m_ble_server = static_cast<BleManager*>(BLEDevice::createServer());
+	m_ble_server->init();
+	m_ble_server->setCallbacks(this);
 
 	/* Create DFPlayer */
 	m_dfplayer = new DFPlayer(m_ble_server);
 
 	/* Create LedController */
-	m_led_controller = new LedController();
+	m_queue = xQueueCreate(4, sizeof(e_patterns));
+	m_led_controller = new LedController(&m_queue);
 
 	/* Enable BLE */
-	m_ble_server->setCallbacks(new StateBleServer(m_led_controller, m_dfplayer));
-	m_ble_server->getAdvertising()->start();
+	m_ble_server->start();
+	xQueueSend(m_queue, &pattern, portMAX_DELAY);
 }

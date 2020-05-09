@@ -7,7 +7,7 @@ void setup() {
   Serial.println("Initializing giraffe project");
 
   /* Initialize BLE context */
-  BLEDevice::init("Connected_giraffe");
+  BLEDevice::init("Giraffe");
   Serial.print("BLE mac address : ");
   Serial.println(BLEDevice::getAddress().toString().c_str());
 
@@ -17,6 +17,8 @@ void setup() {
 }
 
 void loop() {
-  delay(2000);
+  // Sleep forever
+  for(;;) {
+    delay(4000000000);
+  }
 }
-  

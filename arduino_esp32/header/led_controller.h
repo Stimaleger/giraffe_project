@@ -3,26 +3,35 @@
 #include <BLEServer.h>
 #include <Arduino.h>
 #include <vector>
-#include <Adafruit_NeoPixel.h>
+#include <NeoPixelBus.h>
 #include <BLEServer.h>
 #include "led_patterns.h"
 
 #define LED_PIN		13
 #define NB_LED		9
+#define DEFAULT_BRIGHTNESS 128
 
+typedef enum patterns {
+	POSITIVE=0,
+	NEGATIVE,
+	WHITEOVERRAINBOW,
+	FADEINFADEOUT,
+	RAINBOW,
+	THEATERCHASERAINBOW,
+	RAINBOWFADE2WHITE
+} e_patterns;
 
 class LedController {
-	Adafruit_NeoPixel m_led_strip;
-
+	NeoPixelBusType m_led_strip;
+	QueueHandle_t m_queue;
 public:
-	LedController();
-	void turn_off();
-	void initialize_patterns();
-	void run_positive_pattern();
-	void run_negative_pattern();
-	void run_patterns();
+	LedController(QueueHandle_t *p_queue);
 private:
 	eventPattern m_ble_event_positive;
 	eventPattern m_ble_event_negative;
-	std::vector<LedPatternVirtual*> m_patterns;
+	fadeInFadeOut m_fadein_fadeout;
+	static void task_wrapper(void*);
+	void task_event();
+	template <typename T>
+	static void handle_task_curr_pattern(void*);
 };
