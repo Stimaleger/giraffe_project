@@ -1,11 +1,9 @@
 #pragma once
-
-#include <BLEServer.h>
 #include <Arduino.h>
 #include <vector>
 #include <NeoPixelBus.h>
-#include <BLEServer.h>
 #include "led_patterns.h"
+#include "../header/ble.h"
 
 #define LED_PIN		13
 #define NB_LED		9
@@ -25,13 +23,11 @@ class LedController {
 	NeoPixelBusType m_led_strip;
 	QueueHandle_t m_queue;
 public:
-	LedController(QueueHandle_t *p_queue);
+	LedController(QueueHandle_t *p_queue, BleManager* pServer);
+	static void pattern_changed(BLECharacteristic* pCharacteristic, void* param);
 private:
-	eventPattern m_ble_event_positive;
-	eventPattern m_ble_event_negative;
-	fadeInFadeOut m_fadein_fadeout;
+	void set_curr_pattern(e_patterns p_pattern);
+	LedPatternVirtual* m_curr_pattern;
 	static void task_wrapper(void*);
 	void task_event();
-	template <typename T>
-	static void handle_task_curr_pattern(void*);
 };

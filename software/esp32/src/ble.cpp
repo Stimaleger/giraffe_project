@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include "../header/ble.h"
-
+#include "../share/ble_interface.h"
 
 static std::vector<BleCharac*> m_vect_charact;
 
@@ -25,7 +25,7 @@ void BleCallack::onRead(BLECharacteristic* pCharacteristic) {
 }
 
 void BleManager::init() {
-	m_service = createService(MY_SERVICE);
+	m_service = createService(BLE_MY_SERVICE);
 	m_callback = new BleCallack();
 }
 

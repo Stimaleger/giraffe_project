@@ -1,5 +1,6 @@
 #include <string>
 #include "../header/dfplayer_mp3.h"
+#include "../share/ble_interface.h"
 
 DFPlayer::~DFPlayer() {}
 
@@ -20,8 +21,8 @@ DFPlayer::DFPlayer(BleManager* pServer) : m_serial(1) {
   	Serial.println("DFPlayer module correctly initialized");
 
 	/* Create BLE characteristic */
-	pServer->populate_ble(UUID_VOLUME, volume_changed, volume_changed, this);
-	pServer->populate_ble(UUID_PLAY, play, play, this);
+	pServer->populate_ble(BLE_MP3_VOLUME, volume_changed, volume_changed, this);
+	pServer->populate_ble(BLE_MP3_PLAY, play, play, this);
 	
 	/* Enable this service */ 
 	Serial.println("DFPlayer succesfully initialized");

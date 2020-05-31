@@ -31,7 +31,7 @@ void GiraffeController::init() {
 
 	/* Create LedController */
 	m_queue = xQueueCreate(4, sizeof(e_patterns));
-	m_led_controller = new LedController(&m_queue);
+	m_led_controller = new LedController(&m_queue, m_ble_server);
 
 	/* Enable BLE */
 	m_ble_server->start();

@@ -1,7 +1,27 @@
 #include "../header/led_patterns.h"
 #include <Arduino.h>
 
+LedPatternVirtual::~LedPatternVirtual() {
+	stop();
+}
+
+void LedPatternVirtual::stop() {
+	m_running = false;
+	delay(500);
+}
+
+template <typename T>
+void LedPatternVirtual::handle_task_curr_pattern(void* _pattern) {
+	static_cast<T*>(_pattern)->_run();
+	vTaskDelete(NULL); // Make sure to delete task before ending
+}
+
 void eventPattern::run() {
+	m_running = true;
+	xTaskCreate(handle_task_curr_pattern<eventPattern>, "curr_pattern", 1024, this, 5, NULL);
+}
+
+void eventPattern::_run() {
 	for (int j = 0 ; j < 3 ; j++ ) {
 		m_led_strip.ClearTo(m_color);
 		m_led_strip.Show();
@@ -13,7 +33,12 @@ void eventPattern::run() {
 }
 
 void fadeInFadeOut::run() {
-	while (true) {
+	m_running = true;
+	xTaskCreate(handle_task_curr_pattern<fadeInFadeOut>, "curr_pattern", 1024, this, 5, NULL);
+}
+
+void fadeInFadeOut::_run() {
+	while (m_running) {
 		if (m_animations.IsAnimating()) {
 			// the normal loop just needs these two to run the active animations
 			m_animations.UpdateAnimations();

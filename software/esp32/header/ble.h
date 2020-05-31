@@ -4,7 +4,6 @@
 #include <string>
 #include <functional>
 
-#define MY_SERVICE "232ebdf8-238d-4810-87ce-a12283bfa992"
 
 typedef std::function<void(BLECharacteristic* pCharacteristic, void* param)> Callback;
 
