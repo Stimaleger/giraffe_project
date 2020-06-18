@@ -1,35 +1,34 @@
 #pragma once
 
 #include <QLowEnergyController>
+#include "../../esp32/share/ble_interface.h"
 
+#define ESP32_MAC_ADDRESS       "A4:CF:12:63:11:D2"
+#define DFPLAYER_SERVICE        "{232ebdf8-238d-4810-87ce-a12283bfa992}"
+#define VOLUME_CHARACTERISTIC   "{9c4482c2-eeb4-11e9-81b4-2a2ae2dbcce4}"
+#define PLAY_CHARACTERISTIC     "{9c4482c1-eeb4-11e9-81b4-2a2ae2dbcce4}"
 
-#define ESP32_MAC_ADDRESS  "XX:XX:XX:XX:XX:XX"  // TODO add ble mac address
-
-
-class bleClient: QObject
+class bleClient: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool state_connection MEMBER m_state_connection NOTIFY connect)
-    Q_PROPERTY(bool volume MEMBER m_volume NOTIFY volumeChange)
+    Q_PROPERTY(bool state_connection MEMBER m_state_connection NOTIFY connected)
 
 public:
     bleClient();
     ~bleClient();
-    Q_INVOKABLE void setVolume();
     Q_INVOKABLE void connect();
-    Q_INVOKABLE void disconnect();
+    Q_INVOKABLE void play();
+    Q_INVOKABLE void set_volume(const QByteArray &data);
 
 protected:
-    void connectDevice();
     void connectService(QLowEnergyService *service);
     void addService(QBluetoothUuid serviceUuid);
     void serviceStateChange(QLowEnergyService::ServiceState newState);
-    void serviceCharacteristicChanged(const QLowEnergyCharacteristic &c, const QByteArray &value);
     void connectedDevice();
     void disconnectedDevice();
 
 private:
-    QList<QObject*> m_devices;
+    QList<QObject*>                 m_devices;
     QLowEnergyController            *m_controller;
     QLowEnergyService               *m_service;
     bool                             m_state_connection;

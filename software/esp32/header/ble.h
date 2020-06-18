@@ -4,6 +4,9 @@
 #include <string>
 #include <functional>
 
+#define BLE_READ	BLECharacteristic::PROPERTY_READ
+#define BLE_WRITE	BLECharacteristic::PROPERTY_WRITE
+
 
 typedef std::function<void(BLECharacteristic* pCharacteristic, void* param)> Callback;
 
@@ -24,7 +27,7 @@ public:
 
 class BleManager : public BLEServer {
 public:
-	void populate_ble(char* p_uuid_charac, Callback p_write_cb, Callback p_read_cb, void* param); 
+	void populate_ble(char* p_uuid_charac, Callback p_write_cb, Callback p_read_cb, void* param, int ble_properties = BLE_READ|BLE_WRITE); 
     void start();
     void init();
 private:

@@ -29,8 +29,8 @@ void BleManager::init() {
 	m_callback = new BleCallack();
 }
 
-void BleManager::populate_ble(char* p_uuid_charac, Callback p_write_cb, Callback p_read_cb, void* param) {
-	BLECharacteristic* m_charact = m_service->createCharacteristic(p_uuid_charac, BLECharacteristic::PROPERTY_READ |BLECharacteristic::PROPERTY_WRITE);
+void BleManager::populate_ble(char* p_uuid_charac, Callback p_write_cb, Callback p_read_cb, void* param, int ble_properties) {
+	BLECharacteristic* m_charact = m_service->createCharacteristic(p_uuid_charac, ble_properties);
 	m_charact->setCallbacks(m_callback);
 	m_vect_charact.push_back(new BleCharac(p_uuid_charac, p_write_cb, p_read_cb, param));
 	Serial.println(m_vect_charact.back()->m_uuid_charac.c_str());
