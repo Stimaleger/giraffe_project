@@ -2,7 +2,10 @@
 #include "../share/ble_interface.h"
 
 
-LedController::LedController(QueueHandle_t *p_queue, BleManager* pServer) : m_led_strip(NB_LED, LED_PIN) {
+LedController::LedController(QueueHandle_t *p_queue, BleManager* pServer) : 
+	m_led_strip(NB_LED, LED_PIN),
+	m_curr_pattern(NULL) 
+{
 	m_led_strip.Begin();							// initialize NeoPixel strip object
 	m_led_strip.Show();								// Turn OFF all pixels
 
@@ -11,7 +14,7 @@ LedController::LedController(QueueHandle_t *p_queue, BleManager* pServer) : m_le
 	xTaskCreate(
 		this->task_wrapper,	/* Task function. */
 		"task_event",       /* String with name of task. */
-		2048,            	/* Stack size in bytes. */
+		1024,            	/* Stack size in bytes. */
 		this,		        /* Parameter passed as input of the task */
 		32, 				/* Priority of the task. */
 		NULL);            	/* Task handle. */
@@ -57,10 +60,12 @@ void LedController::set_curr_pattern(e_patterns p_pattern) {
 		case FADEINFADEOUT:
 			m_curr_pattern = new fadeInFadeOut(m_led_strip);
 			break;
+		case FUNRANDOMCHANGE:
+			m_curr_pattern = new funRandomChange(m_led_strip);
+			break;
 		default:
 			Serial.print("Invalid pattern: ");
 			Serial.println(p_pattern);
-			m_curr_pattern = new eventPattern(m_led_strip, RgbColor(128, 0, 0));
 	}
 }
 

@@ -2,7 +2,7 @@
 
 #include <NeoPixelBus.h>
 #include <NeoPixelAnimator.h>
-typedef  NeoPixelBus<NeoGrbFeature, NeoEsp32I2s1800KbpsMethod> NeoPixelBusType;
+typedef  NeoPixelBus<NeoGrbFeature, NeoEsp32Rmt0800KbpsMethod> NeoPixelBusType;
 
 class LedPatternVirtual {
 public:
@@ -21,31 +21,6 @@ protected:
 	RgbColor m_black;
 	bool m_running;
 };
-
-/*
-class whiteOverRainbow : public LedPatternVirtual {
-public:
-	whiteOverRainbow(Adafruit_NeoPixel* p_led_strip);
-	void run();
-};
-
-class rainbow : public LedPatternVirtual {
-public:
-	rainbow(Adafruit_NeoPixel* p_led_strip);
-	void run(const int p_loops = DEFAULT_LOOP_NB);
-};
-
-class theaterChaseRainbow : public LedPatternVirtual {
-public:
-	theaterChaseRainbow(Adafruit_NeoPixel* p_led_strip);
-	void run(const int p_loops = DEFAULT_LOOP_NB);
-};
-
-class rainbowFade2White : public LedPatternVirtual {
-public:
-	rainbowFade2White(Adafruit_NeoPixel* p_led_strip);
-	void run(const int p_loops = DEFAULT_LOOP_NB);
-};*/
 
 class eventPattern : public LedPatternVirtual {
 public:
@@ -72,4 +47,20 @@ private:
 	};
 	// one entry per pixel to match the animation timing manager
 	MyAnimationState m_animationState[1];
+};
+
+class funRandomChange : public LedPatternVirtual {
+public:
+	funRandomChange(NeoPixelBusType& p_led_strip) : LedPatternVirtual(p_led_strip), m_animations(p_led_strip.PixelCount()) {}
+	void _run();
+	void run();
+private:
+	NeoPixelAnimator m_animations; // NeoPixel animation management object
+	struct MyAnimationState
+	{
+	    RgbColor StartingColor;
+	    RgbColor EndingColor;
+	};
+	// one entry per pixel to match the animation timing manager
+	MyAnimationState m_animationState[16];
 };

@@ -17,8 +17,5 @@ void setup() {
 }
 
 void loop() {
-  // Sleep forever
-  for(;;) {
-    delay(4000000000);
-  }
+    delay(10000);
 }
