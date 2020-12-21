@@ -1,5 +1,4 @@
 #include "../header/bleclient.h"
-
 #include <QDebug>
 
 bleClient::bleClient() : m_controller(nullptr), m_service(nullptr), m_state_connection(false), m_volume(0)
@@ -37,13 +36,19 @@ void bleClient::connect() {
         m_state_connection = false;
         emit connected();
     });
-
     m_controller->connectToDevice();
 }
 
-void bleClient::play() {
-    QLowEnergyCharacteristic charact = m_service->characteristic(QBluetoothUuid((quint32)BLE_MP3_PLAY));
-    m_service->writeCharacteristic(charact, QByteArray(), QLowEnergyService::WriteWithoutResponse);
+void bleClient::disconnect() {
+    qDebug() << Q_FUNC_INFO << "Disconnecting from device ...";
+    m_controller->disconnectFromDevice();
+}
+
+void bleClient::play(const QByteArray &data) {
+    if (m_state_connection && m_service) {
+        m_service->writeCharacteristic(m_service->characteristic(QBluetoothUuid(QString(PLAY_CHARACTERISTIC))), QByteArray(data), QLowEnergyService::WriteWithoutResponse);
+        m_service->writeCharacteristic(m_service->characteristic(QBluetoothUuid(QString(LED_CHARACTERISTIC))), QByteArray("2"), QLowEnergyService::WriteWithoutResponse);
+    }
 }
 
 void bleClient::set_volume(const QByteArray &data) {
@@ -55,7 +60,7 @@ void bleClient::set_volume(const QByteArray &data) {
 
 void bleClient::addService(QBluetoothUuid serviceUuid) {
     qDebug() << Q_FUNC_INFO  << serviceUuid.toString();
-    if (serviceUuid.toString() == BLE_MY_SERVICE) {
+    if (serviceUuid.toString() == MY_BLE_SERVICE) {
         m_service = m_controller->createServiceObject(serviceUuid);
         qDebug() << "Found dfplay service";
         if (m_service->state() == QLowEnergyService::DiscoveryRequired) {
@@ -75,10 +80,10 @@ void bleClient::serviceStateChange(QLowEnergyService::ServiceState newState) {
     QLowEnergyService *service = qobject_cast<QLowEnergyService *>(sender());
 
     qDebug() << Q_FUNC_INFO << service->serviceUuid().toString();
-    if (service->serviceUuid().toString() == BLE_MY_SERVICE) {
+    if (service->serviceUuid().toString() == MY_BLE_SERVICE) {
         foreach (QLowEnergyCharacteristic c, service->characteristics()) {
             qDebug() << Q_FUNC_INFO << "characteristic " << c.uuid().toString();
-            if (c.uuid().toString() == BLE_MP3_VOLUME) {
+            if (c.uuid().toString() == VOLUME_CHARACTERISTIC) {
                 m_characteristic = c;
             }
             qDebug() << Q_FUNC_INFO << "my characteristic" << c.uuid().toString() << c.properties();

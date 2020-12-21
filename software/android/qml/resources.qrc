@@ -1,0 +1,25 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fonts/fontawesome-webfont.ttf</file>
+        <file>images/back.jpg</file>
+        <file>images/girafe-floss-danse.gif</file>
+        <file>js/fontawesome.js</file>
+        <file>main.qml</file>
+        <file>qml.qmlproject</file>
+        <file>qml.qmlproject.qtds</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>images/perso/0001.jpg</file>
+        <file>images/perso/0002.jpg</file>
+        <file>images/perso/0003.jpg</file>
+        <file>images/perso/0004.jpg</file>
+        <file>images/perso/0005.jpg</file>
+        <file>images/perso/0006.jpg</file>
+        <file>images/perso/0007.jpg</file>
+        <file>images/perso/0008.jpg</file>
+        <file>images/perso/0009.jpg</file>
+        <file>images/perso/0010.jpg</file>
+        <file>images/perso/0011.jpg</file>
+        <file>images/back_90.jpg</file>
+        <file>Card.qml</file>
+    </qresource>
+</RCC>

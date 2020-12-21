@@ -1,12 +1,13 @@
 #pragma once
 
 #include <QLowEnergyController>
-#include "../../esp32/share/ble_interface.h"
 
 #define ESP32_MAC_ADDRESS       "A4:CF:12:63:11:D2"
-#define DFPLAYER_SERVICE        "{232ebdf8-238d-4810-87ce-a12283bfa992}"
+#define MY_BLE_SERVICE          "{232ebdf8-238d-4810-87ce-a12283bfa992}"
 #define VOLUME_CHARACTERISTIC   "{9c4482c2-eeb4-11e9-81b4-2a2ae2dbcce4}"
 #define PLAY_CHARACTERISTIC     "{9c4482c1-eeb4-11e9-81b4-2a2ae2dbcce4}"
+#define LED_CHARACTERISTIC      "{9c4482d1-eeb4-11e9-81b4-2a2ae2dbcce4}"
+
 
 class bleClient: public QObject
 {
@@ -17,7 +18,8 @@ public:
     bleClient();
     ~bleClient();
     Q_INVOKABLE void connect();
-    Q_INVOKABLE void play();
+    Q_INVOKABLE void disconnect();
+    Q_INVOKABLE void play(const QByteArray &data);
     Q_INVOKABLE void set_volume(const QByteArray &data);
 
 protected:
