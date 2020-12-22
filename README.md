@@ -66,5 +66,5 @@ The app interact with the esp32 using BLE. When you flip a card, it starts playi
 
 ## Integration
 
-I'm using insert with screw to fix the board to it's casing.
+I'm using insert with screws to fix the electronic board in the casing.
 ![Integration video](images/basement.gif). 
