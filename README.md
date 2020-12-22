@@ -27,7 +27,7 @@ Hardware is based on ESP32 module.
 
  - [WS2812B](https://www.amazon.fr/gp/product/B01CDTE9AW/ref=ppx_yo_dt_b_asin_title_o09_s01?ie=UTF8&psc=1) led strip
 
-## ESP32
+## ESP32 Software
 
 This part descibe arduino software for ESP32.
 
@@ -41,7 +41,6 @@ nvs,      data, nvs,     0x9000,  0x5000,
 otadata,  data, ota,     0xe000,  0x2000,
 app0,     app,  ota_0,   0x10000, 0x1F0000,
 app1,     app,  ota_1,   0x200000,0x200000,
-
 ```
 Due to bluetooth stack size. [See this issue](https://github.com/espressif/arduino-esp32/issues/1075)
 
