@@ -1,23 +1,31 @@
 # Giraffe project
 
-Connected giraffe using 3D printing, electronic and software
+Connected giraffe using 3D printing, electronic and software.
 
 ## 3D Printing
 
-This part describe printing / 3D 
+This part describe printing / 3D. All parts has been printed with my personnal Creality CR-10 with [this filament](https://www.filimprimante3d.fr/filament-pla-mat/2497-filament-pla-mat-blanc-calcaire-175-mm-1kg.html).
 
 ### Giraffe model
 
-TODO.
+Giraffe model came from [thingiverse](https://www.thingiverse.com/thing:182149).
 
 ### Basement
 
 Basement has been developped with fusion 360.
-TODO describe printing process for basement.
 
 ## Hardware 
 
-TODO.
+Hardware is based on ESP32 module.
+
+### Music
+
+ - [DFPLAYER mini](https://www.amazon.fr/gp/product/B07911V1NL/ref=ppx_yo_dt_b_asin_title_o09_s00?ie=UTF8&psc=1)
+ - [3W speaker](https://www.amazon.fr/gp/product/B073XH8KK8/ref=ppx_yo_dt_b_asin_title_o09_s00?ie=UTF8&psc=1)
+
+### Led
+
+ - [WS2812B](https://www.amazon.fr/gp/product/B01CDTE9AW/ref=ppx_yo_dt_b_asin_title_o09_s01?ie=UTF8&psc=1) led strip
 
 ## ESP32
 
@@ -43,12 +51,20 @@ Due to bluetooth stack size. [See this issue](https://github.com/espressif/ardui
 esp32.upload.maximum_size=2031616
 ```
 
+### Libraries
+
+For this project I used two major libraries:
+ - [DFRobotDFPlayerMini](https://github.com/DFRobot/DFRobotDFPlayerMini)
+ - [NeoPixelBus](https://github.com/Makuna/NeoPixelBus)
+
 ## Android APP
 
-TODO.
+![Integration video](images/android_app.gif). 
+
+Android app has been developped with QT using c++ and qml.
+The app interact with the esp32 using BLE. When you flip a card, it starts playing a song which match with the picture.
 
 ## Integration
 
+I'm using insert with screw to fix the board to it's casing.
 ![Integration video](images/basement.gif). 
-
-TODO.
